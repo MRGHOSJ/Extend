@@ -27,9 +27,10 @@ import LinkedinIcon from "../../components/Icons/AuthIcons/LinkedinIcon.js";
 const Login = (props) => {
 
   const [state, setState] = useState({
-    email: 'admin@flatlogic.com',
-    password: 'password',
+    email: '',
+    password: '',
   })
+
 
   const doLogin = (e) => {
     e.preventDefault();
@@ -41,7 +42,7 @@ const Login = (props) => {
   }
 
   const { from } = props.location.state || { from: { pathname: '/template' }};
-  if (hasToken(JSON.parse(localStorage.getItem('authenticated')))) {
+  if (hasToken(JSON.parse(localStorage.getItem('user')))) {
     return (
       <Redirect to={from} />
     )
