@@ -23,6 +23,11 @@ import TwitterIcon from "../../components/Icons/AuthIcons/TwitterIcon.js";
 import FacebookIcon from "../../components/Icons/AuthIcons/FacebookIcon.js";
 import GithubIcon from "../../components/Icons/AuthIcons/GithubIcon.js";
 import LinkedinIcon from "../../components/Icons/AuthIcons/LinkedinIcon.js";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../../database/firebase.js";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import { toast } from "react-toastify";
+
 
 const Login = (props) => {
 
@@ -30,18 +35,51 @@ const Login = (props) => {
     email: '',
     password: '',
   })
+  const history = useHistory();
 
 
   const doLogin = (e) => {
     e.preventDefault();
-    props.dispatch(loginUser({ password: state.password, email: state.email }))
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const isEmailValid = emailRegex.test(state.email);
+    // Password validation: at least 8 characters, one uppercase, one number, one symbol
+    const passwordRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    const isPasswordValid = passwordRegex.test(state.password);
+
+    if (!isEmailValid) {
+      toast.error("Invalid email format. Please enter a valid email address.");
+      return;
+    }
+
+    // if (!isPasswordValid) {
+    //   toast.error(
+    //     "Password must be at least 8 characters long, contain one uppercase letter, one number, and one special character."
+    //   );
+    //   return;
+    // }
+
+
+    signInWithEmailAndPassword(auth, state.email, state.password)
+      .then((userCredential) => {
+        // Signed in
+        const user = userCredential.user;
+        localStorage.setItem("user", JSON.stringify(user.uid));
+        history.push("/app");
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log(errorCode, errorMessage);
+        setErrorLogin("Error: " + errorCode);
+      });
   }
 
   const changeCreds = (event) => {
     setState({ ...state, [event.target.name]: event.target.value })
   }
 
-  const { from } = props.location.state || { from: { pathname: '/template' }};
+  const { from } = props.location.state || { from: { pathname: '/app' }};
+  
   if (hasToken(JSON.parse(localStorage.getItem('user')))) {
     return (
       <Redirect to={from} />

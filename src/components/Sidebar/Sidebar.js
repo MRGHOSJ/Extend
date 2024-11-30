@@ -41,18 +41,56 @@ const Sidebar = (props) => {
           header="Dashboard"
           isHeader
           iconName={<i className={'eva eva-home-outline'}/>}
-          link="/template/dashboard"
+          link="/app/dashboard"
           index="dashboard"
           badge="9"
         />
-        <h5 className={s.navTitle}>TEMPLATE</h5>
+        <LinksGroup
+          onActiveSidebarItemChange={activeItem => props.dispatch(changeActiveSidebarItem(activeItem))}
+          activeItem={props.activeItem}
+          header="Courses"
+          isHeader
+          iconName={<i className={'eva eva-book-outline'} />}
+          link="/app/courses"
+          index="courses"
+        />
+        <LinksGroup
+          onActiveSidebarItemChange={activeItem => props.dispatch(changeActiveSidebarItem(activeItem))}
+          activeItem={props.activeItem}
+          header="Profile"
+          isHeader
+          iconName={<i className={'eva eva-person-outline'} />}
+          link="/app/profile"
+          index="profile"
+        />
+        <LinksGroup
+          onActiveSidebarItemChange={activeItem => props.dispatch(changeActiveSidebarItem(activeItem))}
+          activeItem={props.activeItem}
+          header="Wallet"
+          isHeader
+          iconName={<i className={'eva eva-folder-outline'} />}
+          link="/app/wallet"
+          index="wallet"
+        />
+        <LinksGroup
+          onActiveSidebarItemChange={activeItem => props.dispatch(changeActiveSidebarItem(activeItem))}
+          activeItem={props.activeItem}
+          header="Settings"
+          isHeader
+          iconName={<i className={'eva eva-settings-outline'} />}
+          link="/app/settings"
+          index="settings"
+        />
+        <h5 className={s.navTitle}>Admin</h5>
+
+        <h5 className={s.navTitle}>Template</h5>
         <LinksGroup
           onActiveSidebarItemChange={activeItem => props.dispatch(changeActiveSidebarItem(activeItem))}
           activeItem={props.activeItem}
           header="Typography"
           isHeader
           iconName={<i className={'eva eva-text-outline'}/>}
-          link="/template/typography"
+          link="/app/typography"
           index="typography"
         />
         <LinksGroup
@@ -61,7 +99,7 @@ const Sidebar = (props) => {
           header="Tables"
           isHeader
           iconName={<i className={'eva eva-grid-outline'}/>}
-          link="/template/tables"
+          link="/app/tables"
           index="tables"
         />
         <LinksGroup
@@ -70,7 +108,7 @@ const Sidebar = (props) => {
           header="Notifications"
           isHeader
           iconName={<i className={'eva eva-bell-outline'}/>}
-          link="/template/notifications"
+          link="/app/notifications"
           index="notifications"
         />
         <LinksGroup
@@ -79,17 +117,17 @@ const Sidebar = (props) => {
           header="UI Elements"
           isHeader
           iconName={<i className={'eva eva-cube-outline'}/>}
-          link="/template/uielements"
+          link="/app/uielements"
           index="uielements"
           childrenLinks={[
             {
-              header: 'Charts', link: '/template/ui-elements/charts',
+              header: 'Charts', link: '/app/ui-elements/charts',
             },
             {
-              header: 'Icons', link: '/template/ui-elements/icons',
+              header: 'Icons', link: '/app/ui-elements/icons',
             },
             {
-              header: 'Google Maps', link: '/template/ui-elements/maps',
+              header: 'Google Maps', link: '/app/ui-elements/maps',
             },
           ]}
         />

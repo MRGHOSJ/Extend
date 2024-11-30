@@ -1,0 +1,44 @@
+/* Toast Container */
+.custom-toast-container {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    z-index: 9999;
+    font-family: Arial, sans-serif;
+  }
+  
+  /* Toast */
+  .custom-toast {
+    background-color: #1d3557; /* Navy blue */
+    color: #f1faee; /* Light text */
+    padding: 16px;
+    border-radius: 8px;
+    font-size: 14px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Toast Progress Bar */
+  .custom-toast-progress {
+    background-color: #a8dadc; /* Aqua */
+  }
+  
+  /* Success Toast */
+  .custom-toast-success {
+    border-left: 4px solid #2a9d8f; /* Teal */
+  }
+  
+  /* Error Toast */
+  .custom-toast-error {
+    border-left: 4px solid #e63946; /* Red */
+  }
+  
+  /* Info Toast */
+  .custom-toast-info {
+    border-left: 4px solid #457b9d; /* Blue */
+  }
+  
+  /* Warning Toast */
+  .custom-toast-warning {
+    border-left: 4px solid #e9c46a; /* Yellow */
+  }
+  

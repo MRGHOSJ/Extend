@@ -17,7 +17,8 @@ import { logoutUser } from "./actions/auth";
 
 // -- Third Party Libs
 import { ToastContainer } from "react-toastify";
-
+import "react-toastify/dist/ReactToastify.css";
+import "./styles/toast.scss"
 // -- Services
 import isAuthenticated from "./services/authService";
 
@@ -25,8 +26,7 @@ import isAuthenticated from "./services/authService";
 import "./styles/app.scss";
 
 const PrivateRoute = ({ dispatch, component, ...rest }) => {
-  if (!isAuthenticated(JSON.parse(localStorage.getItem("authenticated")))) {
-    dispatch(logoutUser());
+  if (!isAuthenticated(JSON.parse(localStorage.getItem("user")))) {
     return (<Redirect to="/login" />)
   } else {
     return (
@@ -38,12 +38,26 @@ const PrivateRoute = ({ dispatch, component, ...rest }) => {
 const App = (props) => {
   return (
     <div>
-      <ToastContainer/>
-      <HashRouter>
+    <ToastContainer
+      className="custom-toast-container"
+      toastClassName={(type) =>
+        `custom-toast ${
+          type === "success"
+            ? "custom-toast-success"
+            : type === "error"
+            ? "custom-toast-error"
+            : type === "info"
+            ? "custom-toast-info"
+            : "custom-toast-warning"
+        }`
+      }
+      progressClassName="custom-toast-progress"
+    />      
+    <HashRouter>
         <Switch>
-          <Route path="/" exact render={() => <Redirect to="/template/dashboard" />} />
-          <Route path="/template" exact render={() => <Redirect to="/template/dashboard"/>}/>
-          <PrivateRoute path="/template" dispatch={props.dispatch} component={LayoutComponent} />
+          <Route path="/" exact render={() => <Redirect to="/app/dashboard" />} />
+          <Route path="/app" exact render={() => <Redirect to="/app/dashboard"/>}/>
+          <PrivateRoute path="/app" dispatch={props.dispatch} component={LayoutComponent} />
           <Route path="/login" exact component={Login} />
           <Route path="/error" exact component={ErrorPage} />
           <Route path="/register" exact component={Register} />

@@ -39,10 +39,12 @@ import userImg from "../../assets/user.svg";
 
 import s from "./Header.module.scss";
 import "animate.css";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
 const Header = (props) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [notificationsOpen, setNotificationsOpen] = useState(false);
+  const history = useHistory();
 
   const toggleNotifications = () => {
     setNotificationsOpen(!notificationsOpen);
@@ -62,8 +64,10 @@ const Header = (props) => {
     }
   }
 
-  const doLogout = () => {
-    props.dispatch(logoutUser());
+  const doLogout = (e) => {
+    e.preventDefault();
+    localStorage.removeItem("user"); 
+    history.push("/login");
   }
 
   return (
@@ -136,7 +140,7 @@ const Header = (props) => {
             <DropdownItem className={s.dropdownProfileItem}><TasksIcon/><span>Tasks</span></DropdownItem>
             <DropdownItem className={s.dropdownProfileItem}><MessagesIcon/><span>Messages</span></DropdownItem>
             <NavItem>
-              <NavLink onClick={() => doLogout()} href="#">
+              <NavLink onClick={(e) => doLogout(e)} href="#">
                 <button className="btn btn-primary rounded-pill mx-auto logout-btn" type="submit"><img src={logoutIcon} alt="Logout"/><span className="ml-1">Logout</span></button>
               </NavLink>
             </NavItem>

@@ -28,7 +28,7 @@ import statsPie from "../../assets/dashboard/statsPie.svg";
 
 import s from "./Dashboard.module.scss";
 
-const Dashboard = () => {
+const Courses = () => {
   const [checkboxes, setCheckboxes] = useState([true, false])
 
   const toggleCheckbox = (id) => {
@@ -40,7 +40,6 @@ const Dashboard = () => {
 
   useEffect(()=>{
     let user = JSON.parse(localStorage.getItem('user'));
-    alert(user)
   },{})
   
   return (
@@ -302,4 +301,4 @@ const Dashboard = () => {
   )
 }
 
-export default Dashboard;
+export default Courses;

@@ -28,7 +28,7 @@ import statsPie from "../../assets/dashboard/statsPie.svg";
 
 import s from "./Dashboard.module.scss";
 
-const Dashboard = () => {
+const Settings = () => {
   const [checkboxes, setCheckboxes] = useState([true, false])
 
   const toggleCheckbox = (id) => {
@@ -302,4 +302,4 @@ const Dashboard = () => {
   )
 }
 
-export default Dashboard;
+export default Settings;
