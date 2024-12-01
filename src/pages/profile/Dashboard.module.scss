@@ -1,60 +1,158 @@
 @import "../../styles/helpers";
 
-.widgetBlock {
-  padding: 12px 0;
-  background-color: $base-light-gray;
-  border-radius: 8px;
+/* Widget Block */
+.widget-p-lg {
+  padding: 20px;
+  background-color: #f4f4f4;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
 }
 
-.widgetBody {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 16px;
-}
-
-.smallWidget {
-  display: flex;
-  flex-direction: column;
-  padding: 20px 0;
-
-  .mutedPink {
-    background-color: #FF566830;
-  }
-
-  .mutedYellow {
-    background-color: #FFC40530;
-  }
-
-  .mutedTeal {
-    background-color: #41D5E230;
-  }
-
-  .mutedViolet {
-    background-color: #4D53E030;
-  }
-//  доделать для остальных цветов прогресс баров
-}
-
+/* User Image */
 .image {
-  margin-right: 16px;
   width: 80px;
   height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 16px;
 }
 
+/* User Info */
 .userInfo {
   display: flex;
   flex-direction: column;
   justify-content: center;
 }
 
-.userParams {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-  margin-top: 32px;
+/* User Info - Name and Location */
+.userInfo .headline-3 {
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
 }
 
+.userInfo .body-3.muted {
+  font-size: 14px;
+  color: #777;
+}
+
+/* User Params */
+.userParams {
+  display: flex;
+  flex-direction: column;  /* Stack the info vertically */
+  justify-content: start;
+  margin-top: 20px;
+}
+
+.userParams .info-section {
+  display: flex;
+  flex-direction: row;  /* Place info in one line */
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.userParams .info-section p {
+  white-space: nowrap;  /* Prevent text from wrapping */
+}
+
+.userParams .info-section p.headline-3 {
+  font-size: 16px;
+  font-weight: bold;
+  color: #333;
+}
+
+.userParams .info-section p.body-3 {
+  font-size: 12px;
+  color: #777;
+}
+
+/* Link Styling */
+.link-text {
+  color: #6A1B9A;
+  text-decoration: none;
+  word-wrap: break-word;
+}
+
+.link-text:hover {
+  text-decoration: underline;
+}
+
+/* Flexbox Adjustments for Small Screens */
+@media (max-width: 768px) {
+  .userParams .info-section {
+    flex-direction: column; /* Stack info vertically on smaller screens */
+    align-items: flex-start;
+  }
+
+  .userParams .info-section p.headline-3 {
+    font-size: 14px;
+  }
+
+  .userParams .info-section p.body-3 {
+    font-size: 12px;
+  }
+
+  .image {
+    width: 60px;
+    height: 60px;
+  }
+
+  .userInfo .headline-3 {
+    font-size: 16px;
+  }
+
+  .userInfo .body-3.muted {
+    font-size: 12px;
+  }
+}
+
+/* Widget Padding */
+.widget-p-lg {
+  padding: 24px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 0 16px rgba(0, 0, 0, 0.1);
+}
+
+/* Widget Layout */
+.widget-p-lg .d-flex {
+  display: flex;
+  align-items: center;
+}
+
+.widget-p-lg .mb-4 {
+  margin-bottom: 16px;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 1200px) {
+  .widget-p-lg {
+    padding: 16px;
+  }
+}
+
+  .info-item {
+    width: auto;
+    margin-bottom: 16px;
+  }
+
+  .info-item p.headline-3 {
+    font-size: 14px;
+  }
+
+  .info-item p.body-3 {
+    font-size: 12px;
+  }
+
+  .image {
+    width: 60px;
+    height: 60px;
+  }
+
+
+/* Goals Section */
 .goals {
   display: flex;
   flex-direction: column;
@@ -80,6 +178,7 @@
   margin-bottom: 12px;
 }
 
+/* Stats Button */
 .statsBtn {
   display: flex;
   align-items: center;
@@ -99,10 +198,139 @@
   }
 }
 
-.responsiveWidget {
-  @media (max-width: breakpoint-max(lg)) {
-    padding: 24px 12px;
-  }
+/* Tree Container */
+.treeContainer {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  flex-direction: column;
+  gap: 20px;  /* Adjusted gap for better organization */
+  padding: 10px;
 }
 
+/* Node Styling */
+.node {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  margin-bottom: 10px; /* Increased bottom margin */
+}
 
+/* Node Text Style */
+.nodeName {
+  background-color: #FFFFFF;
+  border: 2px solid #6A1B9A;
+  padding: 12px 18px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;  /* Slightly bolder text */
+  color: #6A1B9A;
+  text-align: center;
+  width: 120px;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 12px;
+  transition: all 0.3s ease;
+}
+
+.nodeName:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Node Colors for Different Grades */
+.grade1Node {
+  background-color: #6A1B9A;
+  color: white;
+  border-color: #6A1B9A;
+}
+
+.grade2Node, .grade3Node {
+  background-color: #F5F5F5;
+  color: #6A1B9A;
+  border-color: #E0E0E0;
+}
+
+/* Child Nodes Styling */
+.childNodes {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  position: relative;
+  margin-top: 12px; /* Increased margin to balance with node styling */
+}
+
+/* Connecting Lines */
+.childNodes::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 2px;
+  height: 50%;
+  background-color: #6A1B9A;
+  z-index: -1;
+}
+
+.childNodes .node::before {
+  display: block;
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  width: 2px;
+  height: 12px;
+  background-color: #6A1B9A;
+}
+
+.node:first-child > .childNodes > .node::before {
+  display: none;
+}
+
+.childNodes .node:first-child::before {
+  display: none;
+}
+
+/* Adding spacing to bring child nodes closer */
+.node > .childNodes > .node {
+  margin: 0 12px;  /* Adjusted spacing between nodes */
+}
+
+/* Node Name Margin */
+.nodeName {
+  margin-bottom: 8px;  /* Increased margin to better align */
+}
+
+/* Header Styling */
+h2 {
+  font-size: 24px;
+  color: #6A1B9A;
+  text-align: center;
+  margin-bottom: 20px; /* Increased bottom margin */
+}
+
+/* Progress Bars */
+.progress-bar {
+  height: 8px;
+  border-radius: 10px;
+}
+
+.progress-bar .progress-bar-bar {
+  border-radius: 10px;
+}
+
+.mutedPink {
+  background-color: #FF566830;
+}
+
+.mutedYellow {
+  background-color: #FFC40530;
+}
+
+.mutedTeal {
+  background-color: #41D5E230;
+}
+
+.mutedViolet {
+  background-color: #4D53E030;
+}
