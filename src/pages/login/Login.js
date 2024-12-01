@@ -94,12 +94,8 @@ const Login = (props) => {
               <div className="d-flex align-items-center justify-content-between py-3">
                 <p className="auth-header mb-0">Login</p>
                 <div className="logo-block">
-                  <SofiaLogo />
-                  <p className="mb-0">SOFIA</p>
+                  <p className="mb-0">EXTEND</p>
                 </div>
-              </div>
-              <div className="auth-info my-2">
-                <p>This is a real app with Node.js backend - use <b>"admin@flatlogic.com / password"</b> to login!</p>
               </div>
               <form onSubmit={(event) => doLogin(event)}>
                 <FormGroup className="my-3">
