@@ -105,7 +105,7 @@ const Profile = () => {
       })
       .catch((err) => console.error("Failed to copy: ", err));
   };
-
+  
   const Node = ({ node }) => (
     <div className={s.node}>
       <div className={`${s.nodeName} ${s[`grade${node.grade}Node`]}`}>
@@ -120,7 +120,7 @@ const Profile = () => {
       )}
     </div>
   );
-
+  
   const [userData, setUserData] = useState(null);
 
   useEffect(() => {
@@ -157,16 +157,16 @@ const Profile = () => {
   return (
     <Row>
       <Col className="mt-4 mt-lg-0 pl-grid-col" md={4} xs={12}>
-
-  <Widget className="widget-p-lg">
-    {/* User Profile */}
-    <div className="d-flex align-items-center mb-4">
-      <img className="image" src={user} alt="Profile" />
-      <div className="userInfo">
+        <Widget className="widget-p-lg">
+          {/* User Profile */}
+          <div className="d-flex align-items-center mb-4">
+            <img className="image" src={user} alt="Profile" />
+            <div className="userInfo">
         <p className="headline-3">Mounir Khalifa</p>
         <p className="body-3 muted">Tunisia</p>
-      </div>
-    </div>
+            </div>
+          </div>
+          
 
           <div className="progress-section">
             <p className="headline-3 mb-2">Expert Level</p>
@@ -289,6 +289,8 @@ const Profile = () => {
           </div>
         </Widget>
       </Col>
+      
+
       <Col className="mt-4 mt-lg-0 pl-grid-col" md={8} xs={12}>
         <Widget className="widget-p-lg">
           <p className="headline-2">Profile Settings</p>
@@ -324,7 +326,7 @@ const Profile = () => {
               Hierarchy
             </span>
           </div>
-        {userData && activeTab === 'EditProfile' && (
+          {userData && activeTab === 'EditProfile' && (
           <Form onSubmit={handleSubmit} className="pt-4">
           <Row>
             
