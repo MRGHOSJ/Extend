@@ -70,7 +70,6 @@ const Login = (props) => {
         const errorCode = error.code;
         const errorMessage = error.message;
         console.log(errorCode, errorMessage);
-        setErrorLogin("Error: " + errorCode);
       });
   }
 
