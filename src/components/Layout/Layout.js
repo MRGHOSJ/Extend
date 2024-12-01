@@ -21,10 +21,12 @@ import Maps from "../../pages/uielements/maps/google/GoogleMapPage";
 
 // -- Component Styles
 import s from "./Layout.module.scss";
-import Courses from "../../pages/courses/Courses";
 import Profile from "../../pages/profile/Profile";
 import Wallet from "../../pages/wallet/Wallet";
 import Settings from "../../pages/settings/Settings";
+import Packets from "../../pages/packets/Packets";
+import Packet from "../../pages/packet/Packet";
+import AddPacket from "../../pages/addPacket/AddPacket";
 
 const Layout = (props) => {
   return (
@@ -35,32 +37,53 @@ const Layout = (props) => {
         <main className={s.content}>
           <Breadcrumbs url={props.location.pathname} />
           <Switch>
-            <Route path="/app" exact render={() => <Redirect to="app/dashboard"/>} />
-            <Route path="/app/dashboard" exact component={Dashboard}/>
-            <Route path="/app/courses" exact component={Courses}/>
-            <Route path="/app/profile" exact component={Profile}/>
-            <Route path="/app/wallet" exact component={Wallet}/>
-            <Route path="/app/settings" exact component={Settings}/>
+            <Route
+              path="/app"
+              exact
+              render={() => <Redirect to="app/dashboard" />}
+            />
+            <Route path="/app/dashboard" exact component={Dashboard} />
+            <Route path="/app/packets" exact component={Packets} />
+            <Route path="/app/packets/add" exact component={AddPacket} />
+
+            <Route
+              path="/app/packets/add/:currentPacket"
+              exact
+              component={AddPacket}
+            />
+
+            <Route
+              path="/app/packets/:currentPacket"
+              exact
+              component={Packet}
+            />
+            <Route path="/app/profile" exact component={Profile} />
+            <Route path="/app/wallet" exact component={Wallet} />
+            <Route path="/app/settings" exact component={Settings} />
             <Route path="/app/typography" exact component={Typography} />
             <Route path="/app/tables" exact component={Tables} />
             <Route path="/app/notifications" exact component={Notifications} />
-            <Route path="/app/ui-elements" exact render={() => <Redirect to={"/app/ui-elements/charts"} />} />
+            <Route
+              path="/app/ui-elements"
+              exact
+              render={() => <Redirect to={"/app/ui-elements/charts"} />}
+            />
             <Route path="/app/ui-elements/charts" exact component={Charts} />
             <Route path="/app/ui-elements/icons" exact component={Icons} />
             <Route path="/app/ui-elements/maps" exact component={Maps} />
-            <Route path='*' exact render={() => <Redirect to="/error" />} />
+            <Route path="*" exact render={() => <Redirect to="/error" />} />
           </Switch>
         </main>
         <Footer />
       </div>
     </div>
   );
-}
+};
 
 Layout.propTypes = {
   sidebarOpened: PropTypes.bool,
   dispatch: PropTypes.func.isRequired,
-}
+};
 
 function mapStateToProps(store) {
   return {
