@@ -43,7 +43,9 @@ $gray-800: #343a40 !default;
 $gray-900: #212529 !default;
 $black: #000 !default;
 
-$violet:            #4d53e0 !default;
+$violet: #6A1B9A; // Violet
+$white: #FFFFFF; // White
+$light-gray: #F5F5F5; // Light Gray
 $violet-dark:       #2F33A7 !default;
 $green:             #43BC13 !default;
 $blue:              #00A5FF !default;
@@ -56,6 +58,8 @@ $default:           #16365f !default;
 $base-dark-gray:    #6b859e !default;
 $base-middle-gray:  #C7D0D9 !default;
 $base-light-gray:   #F7F8FB !default;
+
+
 
 $theme-colors: (
   primary:          $violet,
