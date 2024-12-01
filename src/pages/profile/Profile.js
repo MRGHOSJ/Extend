@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import IconsPage from "../uielements/icons/IconsPage.js";
 
@@ -21,6 +21,8 @@ import Widget from "../../components/Widget/Widget.js";
 import user from "../../assets/user.svg";
 
 import s from "./Dashboard.module.scss";
+import { collection, getDocs } from "firebase/firestore";
+import firestore from "../../database/firebase.js";
 
 const Profile = () => {
   const [checkboxes, setCheckboxes] = useState([true, false])
@@ -29,6 +31,7 @@ const Profile = () => {
     invitedBy: 'John Doe',  // Person who invited you
     referralLink: 'https://example.com/referral?code=12345',  // Referral link
     coursesAttended: 5,  // Number of courses attended
+    totalCourses: 10,
   });
   const [activeTab, setActiveTab] = useState('EditProfile');
   const [payment, setPayment] = useState([
@@ -39,6 +42,8 @@ const Profile = () => {
       image:'https://upload.wikimedia.org/wikipedia/commons/1/16/Simple_DirectMedia_Layer%2C_Logo.svg',
     },
   ]);
+
+  
 
   const handleTabClick = (tab) => {
     setActiveTab(tab);
@@ -59,6 +64,41 @@ const Profile = () => {
       })
       .catch((err) => console.error('Failed to copy: ', err));
   };
+
+
+  const [userData, setUserData] = useState(null);
+
+  useEffect(() => {
+    const fetchPackets = async () => {
+      try {
+        const userid = JSON.parse(localStorage.getItem('user'));
+        if (!userid) return;  // Ensure userid exists
+        
+        const querySnapshot = await getDocs(collection(firestore, "users"));
+        const usersData = querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        
+        usersData.forEach((user) => {
+          if (user.id === userid) {
+            setUserData(user);
+          }
+        });
+      } catch (error) {
+        console.error("Error fetching packets:", error);
+      }
+    };
+  
+    fetchPackets();
+  }, []);
+  
+
+    const handleSubmit = (e) => {
+      e.preventDefault();
+      console.log('Form submitted with: ',  userData.name, userData.email, userData.phone );
+    };
+
   return (
     <Row>
       <Col className="mt-4 mt-lg-0 pl-grid-col" md={4} xs={12}>
@@ -67,8 +107,8 @@ const Profile = () => {
     <div className="d-flex align-items-center mb-4">
       <img className="image" src={user} alt="Profile" />
       <div className="userInfo">
-        <p className="headline-3">Christina Karey</p>
-        <p className="body-3 muted">Brasil</p>
+        <p className="headline-3">Mounir Khalifa</p>
+        <p className="body-3 muted">Tunisia</p>
       </div>
     </div>
 
@@ -174,15 +214,9 @@ const Profile = () => {
       }}>
         Link Copied!
       </span>}
-      {/* Progress Bar Section */}
-
     </div>
   </Widget>
 </Col>
-
-
-
-
       <Col className="mt-4 mt-lg-0 pl-grid-col" md={8} xs={12}>
         <Widget className="widget-p-lg">
         <p className="headline-2">Profile Settings</p>
@@ -212,94 +246,67 @@ const Profile = () => {
               Hierarchy
             </span>
           </div>
-        {activeTab === 'EditProfile' && (
-          <Form className="pt-4">
-            <Row>
-              <Col xs={6}>
-                <FormGroup>
-                  <Label for="firstName">First Name</Label>
-                  <Input
-                    type="text"
-                    name="firstName"
-                    id="firstName"
-                  />
-                </FormGroup>
-              </Col>
-              <Col xs={6}>
-                <FormGroup>
-                  <Label for="lastName">Last Name</Label>
-                  <Input
-                    type="text"
-                    name="lastName"
-                    id="lastName"
-                  />
-                </FormGroup>
-              </Col>
-              <Col xs={12}>
-                <FormGroup>
-                  <Label for="lastName">Email</Label>
-                  <Input
-                    type="text"
-                    name="email"
-                    id="email"
-                  />
-                </FormGroup>
-              </Col>
-              <Col xs={12}>
-                <FormGroup>
-                  <Label for="lastName">Adress</Label>
-                  <Input
-                    type="text"
-                    name="adress"
-                    id="adress"
-                  />
-                </FormGroup>
-              </Col>              
-              <Col xs={12}>
-                <FormGroup>
-                  <Label for="lastName">Phone number</Label>
-                  <Input
-                    type="number"
-                    name="Phonenumber"
-                    id="Phonenumber"
-                  />
-                </FormGroup>
-              </Col>
-              <Col xs={6}>
-                <FormGroup>
-                  <Label for="lastName">Country</Label>
-                  <Input
-                    type="text"
-                    name="country"
-                    id="country"
-                  />
-                </FormGroup>
-              </Col>
-              <Col xs={6}>
-                <FormGroup>
-                  <Label for="lastName">City</Label>
-                  <Input
-                    type="text"
-                    name="city"
-                    id="city"
-                  />
-                </FormGroup>
-              </Col>
-            </Row>
-            <Row className="pt-3" style={{position:"absolute",right:"30px"}}>
-            <Col xs={12}  >
-              <Button type="submit" color="primary" style={{marginRight:"4px"}}>
-              Save Changes
-            </Button>
-              <Button type="button" style={{backgroundColor:"white",color:"#4d53e0",borderColor:"#4d53e0"}}>
-              Cancel
-            </Button>
-              </Col>
-            </Row>
+        {userData && activeTab === 'EditProfile' && (
+          <Form onSubmit={handleSubmit} className="pt-4">
+          <Row>
             
-            <br/>
-            <br/>
-          </Form>
+            <Col xs={6}>
+              <FormGroup>
+                <Label for="lastName">Name</Label>
+                <Input
+                  type="text"
+                  name="Name"
+                  id="Name"
+                  value={userData.name}
+                  onChange={(e) => setUserData(prevState => ({
+                    ...prevState,  
+                    name: e.target.value
+                  }))}
+                />
+              </FormGroup>
+            </Col>
+            <Col xs={12}>
+              <FormGroup>
+                <Label for="email">Email</Label>
+                <Input
+                  type="text"
+                  name="email"
+                  id="email"
+                  value={userData.email}
+                  onChange={(e) => setUserData(prevState => ({
+                  ...prevState,  
+                    email: e.target.value
+                  }))}
+                />
+              </FormGroup>
+            </Col>
+            <Col xs={12}>
+              <FormGroup>
+                <Label for="phoneNumber">Phone number</Label>
+                <Input
+                  type="text"
+                  name="phoneNumber"
+                  id="phoneNumber"
+                  value={userData.phone}
+                  onChange={(e) => setUserData(prevState => ({
+                    ...prevState,  
+                    phone: e.target.value
+                  }))}
+                />
+              </FormGroup>
+            </Col>
+          </Row>
+          <Row className="pt-3" style={{ position: "absolute", right: "30px" }}>
+            <Col xs={12}>
+              <Button type="submit" color="primary" style={{ marginRight: "4px" }}>
+                Save Changes
+              </Button>
+              <Button type="button" style={{ backgroundColor: "white", color: "#4d53e0", borderColor: "#4d53e0" }}>
+                Cancel
+              </Button>
+            </Col>
+          </Row>
+        </Form>
         )}
         {activeTab === 'ChangePassword' && (
           <Form className="pt-4">
