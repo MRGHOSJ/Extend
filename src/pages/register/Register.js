@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { withRouter, Link } from "react-router-dom";
 import { Container, Row, Col, Button, FormGroup, FormText, Input } from "reactstrap";
@@ -23,16 +23,26 @@ const Register = (props) => {
     password: "",
     phone: "",
     error: "",
+    referral: ""
   });
 
   const changeCred = (event) => {
     setState({ ...state, [event.target.name]: event.target.value });
   };
+  
+  useEffect(() => {
+    // Extract the referral code from the URL query parameters
+    const urlParams = new URLSearchParams(props.location.search);
+    const referralCode = urlParams.get('referral'); // Assuming the referral is passed as ?referral=somecode
+    if (referralCode) {
+      setState((prevState) => ({ ...prevState, referral: referralCode }));
+    }
+  }, [props.location.search]);
 
   const doRegister = async (event) => {
     event.preventDefault();
 
-    const { name, email, password, phone } = state;
+    const { name, email, password, phone, referral } = state;
 
     // Check if all fields are filled
     if (!name || !email || !password || !phone) {
@@ -51,10 +61,12 @@ const Register = (props) => {
         name,
         email,
         phone,
+        referral,
+        role:"user"
       });
 
       // Redirect or perform other actions after successful registration
-      props.history.push("/template");
+      props.history.push("/app");
     } catch (error) {
       // Handle registration errors
       setState({ ...state, error: error.message });
@@ -70,8 +82,7 @@ const Register = (props) => {
               <div className="d-flex align-items-center justify-content-between py-3">
                 <p className="auth-header mb-0">Sign Up</p>
                 <div className="logo-block">
-                  <SofiaLogo />
-                  <p className="mb-0">SOFIA</p>
+                  <p className="mb-0">EXTEND</p>
                 </div>
               </div>
               {state.error && <div className="text-danger">{state.error}</div>}
