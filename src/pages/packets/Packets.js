@@ -23,7 +23,7 @@ const Packets = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [sortOption, setSortOption] = useState("progress");
   const [sortOrder, setSortOrder] = useState("desc");
-  const [isAdmin, setIsAdmin] = useState(true);
+  const [isAdmin, setIsAdmin] = useState(false);
   const [currentpackets, setCurrentpackets] = useState([]);
 
   const sortpackets = (a, b) => {
@@ -80,7 +80,28 @@ const Packets = () => {
         console.error("Error fetching packets:", error);
       }
     };
+    const fetchUsers = async () => {
+      try {
+        const userid = JSON.parse(localStorage.getItem("user"));
+        if (!userid) return; // Ensure userid exists
 
+        const querySnapshot = await getDocs(collection(firestore, "users"));
+        const usersDataBase = querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+
+        usersDataBase?.forEach((user) => {
+          if (user.id === userid && user.role == "admin") {
+            setIsAdmin(true);
+          }
+        });
+
+      } catch (error) {
+        console.error("Error fetching packets:", error);
+      }
+    };
+    fetchUsers();
     fetchPackets();
   }, []);
 
@@ -241,8 +262,7 @@ const Packets = () => {
                             style={{ fontSize: "20px" }}
                           />
                           <p className="body-3 text-muted mb-0">
-                            {course.mins} Min
-                            {course.mins > 1 ? "s" : ""}
+                            120 Mins
                           </p>
                         </Col>
                       </Row>
