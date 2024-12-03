@@ -43,7 +43,7 @@ const Login = (props) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const isEmailValid = emailRegex.test(state.email);
     // Password validation: at least 8 characters, one uppercase, one number, one symbol
-    const passwordRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    const passwordRegex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]{8,}$/;
     const isPasswordValid = passwordRegex.test(state.password);
 
     if (!isEmailValid) {
@@ -51,12 +51,12 @@ const Login = (props) => {
       return;
     }
 
-    // if (!isPasswordValid) {
-    //   toast.error(
-    //     "Password must be at least 8 characters long, contain one uppercase letter, one number, and one special character."
-    //   );
-    //   return;
-    // }
+    if (!isPasswordValid) {
+      toast.error(
+        "Password must be at least 5 characters long, contain one uppercase letter, one number, and one special character."
+      );
+      return;
+    }
 
 
     signInWithEmailAndPassword(auth, state.email, state.password)
@@ -69,6 +69,9 @@ const Login = (props) => {
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
+        toast.error(
+          errorMessage
+        );
         console.log(errorCode, errorMessage);
       });
   }

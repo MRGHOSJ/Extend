@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import {
   Col,
@@ -23,6 +23,8 @@ import heartViolet from "../../assets/dashboard/heartViolet.svg";
 import heartYellow from "../../assets/dashboard/heartYellow.svg";
 
 import s from "./Dashboard.module.scss";
+import { collection, getDocs } from "firebase/firestore";
+import firestore from "../../database/firebase.js";
 
 const Dashboard = () => {
   const [checkboxes, setCheckboxes] = useState([true, false])
@@ -83,7 +85,34 @@ const Dashboard = () => {
     pending_courses:0,
     available_courses:30
   })
+
+  const [currentUser, setCurrentUser] = useState(null)
   ////////////////////////////////////////////////////////////////
+
+  useEffect(() => {
+    const fetchPackets = async () => {
+      try {
+        const userid = JSON.parse(localStorage.getItem("user"));
+        if (!userid) return; // Ensure userid exists
+
+        const querySnapshot = await getDocs(collection(firestore, "users"));
+        const usersDataBase = querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+
+        usersDataBase?.forEach((user) => {
+          if (user.id === userid) {
+            setCurrentUser(user);
+          }
+        });
+      } catch (error) {
+        console.error("Error fetching packets:", error);
+      }
+    };
+
+    fetchPackets();
+  }, []);
 
   return (
     <div>
@@ -94,7 +123,7 @@ const Dashboard = () => {
               <Widget className="widget-p-none">
                 <div className="d-flex flex-wrap align-items-center justify-content-center">
                   <div className="d-flex flex-column align-items-center col-12 col-xl-6 p-sm-4">
-                    <p className="headline-1">Welcome {userName},</p>
+                    <p className="headline-1">Welcome {currentUser?.name},</p>
                     <p className="body-3">You have completed {lesssons} lesson{lesssons>1?"s":""} in last days. Start your learning today.</p>
                   </div>
                   <div className="d-flex justify-content-center col-12 col-xl-6">
