@@ -584,69 +584,6 @@ const Profile = () => {
           <br />
           <br />
 
-          {activeTab === "ChangePassword" && (
-            <Form className="pt-4">
-              <Row>
-                <Col xs={12}>
-                  <FormGroup>
-                    <Label for="CurrentPassword">Current Password</Label>
-                    <Input
-                      type="password"
-                      name="CurrentPassword"
-                      id="CurrentPassword"
-                    />
-                  </FormGroup>
-                </Col>
-                <Col xs={12}>
-                  <FormGroup>
-                    <Label for="NewPassword">New Password</Label>
-                    <Input
-                      type="password"
-                      name="NewPassword"
-                      id="NewPassword"
-                    />
-                  </FormGroup>
-                </Col>
-                <Col xs={12}>
-                  <FormGroup>
-                    <Label for="ConfirmerPassword">Confirmer Password</Label>
-                    <Input
-                      type="password"
-                      name="ConfirmerPassword"
-                      id="ConfirmerPassword"
-                    />
-                  </FormGroup>
-                </Col>
-              </Row>
-              <Row
-                className="pt-3"
-                style={{ position: "absolute", right: "30px" }}
-              >
-                <Col xs={12}>
-                  <Button
-                    type="submit"
-                    color="primary"
-                    style={{ marginRight: "4px" }}
-                  >
-                    Save Changes
-                  </Button>
-                  <Button
-                    type="button"
-                    style={{
-                      backgroundColor: "white",
-                      color: "#4d53e0",
-                      borderColor: "#4d53e0",
-                    }}
-                  >
-                    Cancel
-                  </Button>
-                </Col>
-              </Row>
-
-              <br />
-              <br />
-            </Form>
-          )}
           {activeTab === "Payment" && (
             <div style={{ height: "700px", overflowY: "auto" }}>
               {payment.map((pay) => {

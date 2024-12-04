@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { Button} from 'reactstrap';
-import { withRouter } from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { Button } from "reactstrap";
+import { withRouter } from "react-router-dom";
 import s from "./Sidebar.module.scss";
 import LinksGroup from "./LinksGroup/LinksGroup.js";
 import { changeActiveSidebarItem } from "../../actions/navigation.js";
@@ -10,79 +10,155 @@ import SofiaLogo from "../Icons/SofiaLogo.js";
 import cn from "classnames";
 
 const Sidebar = (props) => {
+  const { activeItem = "", ...restProps } = props;
 
-  const {
-    activeItem = '',
-    ...restProps
-  } = props;
-
-  const [burgerSidebarOpen, setBurgerSidebarOpen] = useState(false)
+  const [burgerSidebarOpen, setBurgerSidebarOpen] = useState(false);
 
   useEffect(() => {
     if (props.sidebarOpened) {
-      setBurgerSidebarOpen(true)
+      setBurgerSidebarOpen(true);
     } else {
       setTimeout(() => {
-        setBurgerSidebarOpen(false)
+        setBurgerSidebarOpen(false);
       }, 0);
     }
-  }, [props.sidebarOpened])
+  }, [props.sidebarOpened]);
 
   return (
-    <nav className={cn(s.root, {[s.sidebarOpen]: burgerSidebarOpen})} >
+    <nav className={cn(s.root, { [s.sidebarOpen]: burgerSidebarOpen })}>
       <header className={s.logo}>
         <span className={s.title}>EXTEND</span>
       </header>
       <ul className={s.nav}>
         <LinksGroup
-          onActiveSidebarItemChange={activeItem => props.dispatch(changeActiveSidebarItem(activeItem))}
+          onActiveSidebarItemChange={(activeItem) =>
+            props.dispatch(changeActiveSidebarItem(activeItem))
+          }
           activeItem={props.activeItem}
           header="Dashboard"
           isHeader
-          iconName={<i className={'eva eva-home-outline'}/>}
+          iconName={<i className="eva eva-home-outline" />}
           link="/app/dashboard"
           index="dashboard"
         />
         <LinksGroup
-          onActiveSidebarItemChange={activeItem => props.dispatch(changeActiveSidebarItem(activeItem))}
+          onActiveSidebarItemChange={(activeItem) =>
+            props.dispatch(changeActiveSidebarItem(activeItem))
+          }
           activeItem={props.activeItem}
           header="Packets"
           isHeader
-          iconName={<i className={'eva eva-book-outline'} />}
+          iconName={<i className="eva eva-book-outline" />}
           link="/app/packets"
           index="packets"
         />
         <LinksGroup
-          onActiveSidebarItemChange={activeItem => props.dispatch(changeActiveSidebarItem(activeItem))}
+          onActiveSidebarItemChange={(activeItem) =>
+            props.dispatch(changeActiveSidebarItem(activeItem))
+          }
           activeItem={props.activeItem}
           header="Profile"
           isHeader
-          iconName={<i className={'eva eva-person-outline'} />}
+          iconName={<i className="eva eva-person-outline" />}
           link="/app/profile"
           index="profile"
         />
         <LinksGroup
-          onActiveSidebarItemChange={activeItem => props.dispatch(changeActiveSidebarItem(activeItem))}
+          onActiveSidebarItemChange={(activeItem) =>
+            props.dispatch(changeActiveSidebarItem(activeItem))
+          }
           activeItem={props.activeItem}
           header="Wallet"
           isHeader
-          iconName={<i className={'eva eva-folder-outline'} />}
+          iconName={<i className="eva eva-folder-outline" />}
           link="/app/wallet"
           index="wallet"
         />
         <LinksGroup
-          onActiveSidebarItemChange={activeItem => props.dispatch(changeActiveSidebarItem(activeItem))}
+          onActiveSidebarItemChange={(activeItem) =>
+            props.dispatch(changeActiveSidebarItem(activeItem))
+          }
+          activeItem={props.activeItem}
+          header="Friends"
+          isHeader
+          iconName={<i className="eva eva-book-open-outline" />}
+          link="/app/friends"
+          index="friends"
+        />
+        <LinksGroup
+          onActiveSidebarItemChange={(activeItem) =>
+            props.dispatch(changeActiveSidebarItem(activeItem))
+          }
+          activeItem={props.activeItem}
+          header="Voucher"
+          isHeader
+          iconName={<i className="eva eva-gift-outline" />}
+          link="/app/voucher"
+          index="voucher"
+        />
+        <LinksGroup
+          onActiveSidebarItemChange={(activeItem) =>
+            props.dispatch(changeActiveSidebarItem(activeItem))
+          }
           activeItem={props.activeItem}
           header="Settings"
           isHeader
-          iconName={<i className={'eva eva-settings-outline'} />}
+          iconName={<i className="eva eva-settings-outline" />}
           link="/app/settings"
           index="settings"
+        />
+        <p className="body-3 muted p-3" style={{ fontWeight: "bold" }}>
+          Admin Section
+        </p>
+
+        <LinksGroup
+          onActiveSidebarItemChange={(activeItem) =>
+            props.dispatch(changeActiveSidebarItem(activeItem))
+          }
+          activeItem={props.activeItem}
+          header="Profiles"
+          isHeader
+          iconName={<i className="eva eva-person-outline" />}
+          link="/app/profiles"
+          index="profiles"
+        />
+        <LinksGroup
+          onActiveSidebarItemChange={(activeItem) =>
+            props.dispatch(changeActiveSidebarItem(activeItem))
+          }
+          activeItem={props.activeItem}
+          header="Roles"
+          isHeader
+          iconName={<i className="eva eva-person-add-outline" />}
+          link="/app/roles"
+          index="roles"
+        />
+        <LinksGroup
+          onActiveSidebarItemChange={(activeItem) =>
+            props.dispatch(changeActiveSidebarItem(activeItem))
+          }
+          activeItem={props.activeItem}
+          header="Transactions"
+          isHeader
+          iconName={<i className="eva eva-credit-card-outline" />}
+          link="/app/transactions"
+          index="transactions"
+        />
+        <LinksGroup
+          onActiveSidebarItemChange={(activeItem) =>
+            props.dispatch(changeActiveSidebarItem(activeItem))
+          }
+          activeItem={props.activeItem}
+          header="Settings"
+          isHeader
+          iconName={<i className="eva eva-settings-2-outline" />}
+          link="/app/settingsAdmin"
+          index="settingsAdmin"
         />
       </ul>
     </nav>
   );
-}
+};
 
 Sidebar.propTypes = {
   sidebarOpened: PropTypes.bool,
@@ -91,7 +167,7 @@ Sidebar.propTypes = {
   location: PropTypes.shape({
     pathname: PropTypes.string,
   }).isRequired,
-}
+};
 
 function mapStateToProps(store) {
   return {

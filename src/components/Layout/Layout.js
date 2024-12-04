@@ -27,6 +27,8 @@ import Settings from "../../pages/settings/Settings";
 import Packets from "../../pages/packets/Packets";
 import Packet from "../../pages/packet/Packet";
 import AddPacket from "../../pages/addPacket/AddPacket";
+import Friends from "../../pages/friends/Friends";
+import Voucher from "../../pages/voucher/Voucher";
 
 const Layout = (props) => {
   return (
@@ -45,6 +47,7 @@ const Layout = (props) => {
             <Route path="/app/dashboard" exact component={Dashboard} />
             <Route path="/app/packets" exact component={Packets} />
             <Route path="/app/packets/add" exact component={AddPacket} />
+            <Route path="/app/friends" exact component={Friends} />
 
             <Route
               path="/app/packets/add/:currentPacket"
@@ -58,6 +61,7 @@ const Layout = (props) => {
               component={Packet}
             />
             <Route path="/app/profile" exact component={Profile} />
+            <Route path="/app/voucher" exact component={Voucher} />
             <Route path="/app/wallet" exact component={Wallet} />
             <Route path="/app/settings" exact component={Settings} />
             <Route path="/app/typography" exact component={Typography} />
