@@ -28,64 +28,87 @@ import { auth } from "../../database/firebase.js";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import { toast } from "react-toastify";
 
-
 const Login = (props) => {
-
   const [state, setState] = useState({
-    email: '',
-    password: '',
-  })
+    email: "",
+    password: "",
+  });
   const history = useHistory();
-
 
   const doLogin = (e) => {
     e.preventDefault();
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const isEmailValid = emailRegex.test(state.email);
-    // Password validation: at least 8 characters, one uppercase, one number, one symbol
-    const passwordRegex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]{8,}$/;
-    const isPasswordValid = passwordRegex.test(state.password);
 
-    if (!isEmailValid) {
+    const { email, password } = state;
+
+    // Email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Basic email format
+    const isEmailValid = emailRegex.test(email);
+
+    // Password validation: at least 8 characters, one uppercase, one lowercase, one number, one special character
+    const passwordRegex =
+      /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]{8,}$/;
+    const isPasswordValid = passwordRegex.test(password);
+
+    // Input validation
+    if (!email || !isEmailValid) {
       toast.error("Invalid email format. Please enter a valid email address.");
       return;
     }
 
-    if (!isPasswordValid) {
+    if (!password || !isPasswordValid) {
       toast.error(
-        "Password must be at least 5 characters long, contain one uppercase letter, one number, and one special character."
+        "Password must be at least 8 characters long, include one uppercase letter, one lowercase letter, one number, and one special character."
       );
       return;
     }
 
-
-    signInWithEmailAndPassword(auth, state.email, state.password)
+    // Firebase authentication
+    signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
-        // Signed in
+        // Successful login
         const user = userCredential.user;
         localStorage.setItem("user", JSON.stringify(user.uid));
         history.push("/app");
       })
       .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        toast.error(
-          errorMessage
-        );
-        console.log(errorCode, errorMessage);
+        // Firebase error handling
+        let errorMessage = "An error occurred during login. Please try again.";
+        switch (error.code) {
+          case "auth/user-not-found":
+            errorMessage = "No user found with this email address.";
+            break;
+          case "auth/invalid-credential":
+            errorMessage = "Incorrect password. Please try again.";
+            break;
+          case "auth/wrong-password":
+            errorMessage = "Incorrect password. Please try again.";
+            break;
+          case "auth/invalid-email":
+            errorMessage = "The email address is invalid.";
+            break;
+          case "auth/too-many-requests":
+            errorMessage = "Too many login attempts. Please try again later.";
+            break;
+          case "auth/network-request-failed":
+            errorMessage =
+              "Network error. Please check your connection and try again.";
+            break;
+          default:
+            errorMessage = error.message; // Use default Firebase error message
+        }
+        toast.error(errorMessage);
+        console.error(error.code, error.message);
       });
-  }
+  };
 
   const changeCreds = (event) => {
-    setState({ ...state, [event.target.name]: event.target.value })
-  }
+    setState({ ...state, [event.target.name]: event.target.value });
+  };
 
-  const { from } = props.location.state || { from: { pathname: '/app' }};
-  
-  if (hasToken(JSON.parse(localStorage.getItem('user')))) {
-    return (
-      <Redirect to={from} />
-    )
+  const { from } = props.location.state || { from: { pathname: "/app" } };
+
+  if (hasToken(JSON.parse(localStorage.getItem("user")))) {
+    return <Redirect to={from} />;
   }
 
   return (
@@ -114,7 +137,7 @@ const Login = (props) => {
                     placeholder="Email"
                   />
                 </FormGroup>
-                <FormGroup  className="my-3">
+                <FormGroup className="my-3">
                   <div className="d-flex justify-content-between">
                     <FormText>Password</FormText>
                     <Link to="/error">Forgot password?</Link>
@@ -131,17 +154,33 @@ const Login = (props) => {
                   />
                 </FormGroup>
                 <div className="bg-widget d-flex justify-content-center">
-                  <Button className="rounded-pill my-3" type="submit" color="secondary-red">Login</Button>
+                  <Button
+                    className="rounded-pill my-3"
+                    type="submit"
+                    color="secondary-red"
+                  >
+                    Login
+                  </Button>
                 </div>
                 <p className="dividing-line my-3">&#8195;Or&#8195;</p>
                 <div className="d-flex align-items-center my-3">
                   <p className="social-label mb-0">Login with</p>
                   <div className="socials">
-                    <a href="https://flatlogic.com/"><GoogleIcon /></a>
-                    <a href="https://flatlogic.com/"><TwitterIcon /></a>
-                    <a href="https://flatlogic.com/"><FacebookIcon /></a>
-                    <a href="https://flatlogic.com/"><GithubIcon /></a>
-                    <a href="https://flatlogic.com/"><LinkedinIcon /></a>
+                    <a href="https://flatlogic.com/">
+                      <GoogleIcon />
+                    </a>
+                    <a href="https://flatlogic.com/">
+                      <TwitterIcon />
+                    </a>
+                    <a href="https://flatlogic.com/">
+                      <FacebookIcon />
+                    </a>
+                    <a href="https://flatlogic.com/">
+                      <GithubIcon />
+                    </a>
+                    <a href="https://flatlogic.com/">
+                      <LinkedinIcon />
+                    </a>
                   </div>
                 </div>
                 <Link to="/register">Don’t have an account? Sign Up here</Link>
@@ -157,13 +196,12 @@ const Login = (props) => {
       </Container>
       <Footer />
     </div>
-  )
-}
-
+  );
+};
 
 Login.propTypes = {
   dispatch: PropTypes.func.isRequired,
-}
+};
 
 function mapStateToProps(state) {
   return {

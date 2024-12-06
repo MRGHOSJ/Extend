@@ -1,44 +1,101 @@
 /* Toast Container */
 .custom-toast-container {
-    position: fixed;
-    top: 10px;
-    right: 10px;
-    z-index: 9999;
-    font-family: Arial, sans-serif;
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  z-index: 9999;
+  font-family: 'Poppins', Arial, sans-serif; /* Modern font */
+}
+
+/* Toast */
+.custom-toast {
+  background-color: #ffffff; /* White */
+  color: #6a1b9a; /* Violet text */
+  padding: 16px 24px;
+  border-radius: 16px; /* Softer rounded corners */
+  font-size: 15px;
+  font-weight: 500;
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.15); /* Subtle shadow */
+  display: flex;
+  align-items: center;
+  gap: 16px; /* Space between icon and text */
+  min-width: 320px;
+  max-width: 400px;
+  transition: transform 0.3s ease, opacity 0.3s ease; /* Add smooth entry/exit animations */
+}
+
+/* Toast Icon */
+.custom-toast-icon {
+  background-color: #6a1b9a; /* Violet */
+  width: 40px;
+  height: 40px;
+  border-radius: 12px; /* Squircle shape */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #ffffff; /* White */
+  font-size: 18px;
+  font-weight: bold;
+}
+
+/* Toast Progress Bar */
+.custom-toast-progress {
+  background-color: #f5f5f5; /* Light Gray background */
+  height: 6px;
+  border-radius: 3px;
+  margin-top: 12px;
+  position: relative;
+  overflow: hidden;
+}
+
+.custom-toast-progress::after {
+  content: "";
+  display: block;
+  height: 100%;
+  width: 0;
+  background-color: #6a1b9a; /* Violet */
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-radius: 3px;
+  animation: progress-bar 5s linear forwards; /* Animates based on duration */
+}
+
+/* Keyframe for progress bar */
+@keyframes progress-bar {
+  from {
+    width: 0;
   }
-  
-  /* Toast */
-  .custom-toast {
-    background-color: #1d3557; /* Navy blue */
-    color: #f1faee; /* Light text */
-    padding: 16px;
-    border-radius: 8px;
-    font-size: 14px;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  to {
+    width: 100%;
   }
-  
-  /* Toast Progress Bar */
-  .custom-toast-progress {
-    background-color: #a8dadc; /* Aqua */
-  }
-  
-  /* Success Toast */
-  .custom-toast-success {
-    border-left: 4px solid #2a9d8f; /* Teal */
-  }
-  
-  /* Error Toast */
-  .custom-toast-error {
-    border-left: 4px solid #e63946; /* Red */
-  }
-  
-  /* Info Toast */
-  .custom-toast-info {
-    border-left: 4px solid #457b9d; /* Blue */
-  }
-  
-  /* Warning Toast */
-  .custom-toast-warning {
-    border-left: 4px solid #e9c46a; /* Yellow */
-  }
-  
+}
+
+/* Toast Variants */
+.custom-toast-success {
+  border-left: 6px solid #4caf50; /* Green */
+}
+
+.custom-toast-error {
+  border-left: 6px solid #e63946; /* Red */
+}
+
+.custom-toast-info {
+  border-left: 6px solid #6a1b9a; /* Violet */
+}
+
+.custom-toast-warning {
+  border-left: 6px solid #ffb703; /* Yellow */
+}
+
+/* Entry Animation */
+.custom-toast-show {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+/* Exit Animation */
+.custom-toast-hide {
+  transform: translateY(-20px);
+  opacity: 0;
+}
