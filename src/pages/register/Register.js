@@ -14,6 +14,7 @@ import Widget from "../../components/Widget/Widget.js";
 import Footer from "../../components/Footer/Footer.js";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { getFirestore, doc, setDoc } from "firebase/firestore";
+import { toast } from "react-toastify";
 
 import loginImage from "../../assets/registerImage.svg";
 import SofiaLogo from "../../components/Icons/SofiaLogo.js";
@@ -102,7 +103,10 @@ const Register = (props) => {
         referral,
         role: "user",
       });
-
+      
+      toast.success(
+        "Your account has been successfully registered.."
+      );
       // Redirect or perform other actions after successful registration
       props.history.push("/app");
     } catch (error) {

@@ -73,19 +73,19 @@
 
 /* Toast Variants */
 .custom-toast-success {
-  border-left: 6px solid #4caf50; /* Green */
+  border-left: 6px solid #4caf50 !important; /* Green */
 }
 
 .custom-toast-error {
-  border-left: 6px solid #e63946; /* Red */
+  border-left: 6px solid #e63946 !important; /* Red */
 }
 
 .custom-toast-info {
-  border-left: 6px solid #6a1b9a; /* Violet */
+  border-left: 6px solid #6a1b9a !important; /* Violet */
 }
 
 .custom-toast-warning {
-  border-left: 6px solid #ffb703; /* Yellow */
+  border-left: 6px solid #ffb703 !important; /* Yellow */
 }
 
 /* Entry Animation */
