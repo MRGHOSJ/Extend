@@ -68,6 +68,9 @@ const Login = (props) => {
         // Successful login
         const user = userCredential.user;
         localStorage.setItem("user", JSON.stringify(user.uid));
+        toast.success(
+          "You have successfully logged into your account."
+        );
         history.push("/app");
       })
       .catch((error) => {
