@@ -1,7 +1,15 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { withRouter, Link } from "react-router-dom";
-import { Container, Row, Col, Button, FormGroup, FormText, Input } from "reactstrap";
+import {
+  Container,
+  Row,
+  Col,
+  Button,
+  FormGroup,
+  FormText,
+  Input,
+} from "reactstrap";
 import Widget from "../../components/Widget/Widget.js";
 import Footer from "../../components/Footer/Footer.js";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
@@ -23,37 +31,67 @@ const Register = (props) => {
     password: "",
     phone: "",
     error: "",
-    referral: ""
+    referral: "",
   });
 
   const changeCred = (event) => {
     setState({ ...state, [event.target.name]: event.target.value });
   };
-  
+
   useEffect(() => {
-    // Extract the referral code from the URL query parameters
     const urlParams = new URLSearchParams(props.location.search);
-    const referralCode = urlParams.get('referral'); // Assuming the referral is passed as ?referral=somecode
+    const referralCode = urlParams.get("referral"); // Assuming the referral is passed as ?referral=somecode
     if (referralCode) {
       setState((prevState) => ({ ...prevState, referral: referralCode }));
     }
   }, [props.location.search]);
-
   const doRegister = async (event) => {
     event.preventDefault();
 
     const { name, email, password, phone, referral } = state;
 
-    // Check if all fields are filled
-    if (!name || !email || !password || !phone) {
-      setState({ ...state, error: "All fields are required." });
+    // Regular expressions for validation
+    const nameRegex = /^[a-zA-Z\s]+$/; // Only letters and spaces
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Basic email format
+    const strongPasswordRegex =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/; // Strong password
+    const phoneRegex = /^\d+$/; // Only digits
+
+    // Input validation
+    if (!name || !nameRegex.test(name)) {
+      setState({
+        ...state,
+        error: "Name must contain only letters and spaces.",
+      });
+      return;
+    }
+
+    if (!email || !emailRegex.test(email)) {
+      setState({ ...state, error: "Invalid email address." });
+      return;
+    }
+
+    if (!password || !strongPasswordRegex.test(password)) {
+      setState({
+        ...state,
+        error:
+          "Password must be at least 8 characters long, include an uppercase letter, a lowercase letter, a number, and a special character.",
+      });
+      return;
+    }
+
+    if (!phone || !phoneRegex.test(phone)) {
+      setState({ ...state, error: "Phone number must contain only digits." });
       return;
     }
 
     try {
-
       // Create a user in Firebase Authentication
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
 
       // Store additional user data in Firestore
       const user = userCredential.user;
@@ -62,14 +100,34 @@ const Register = (props) => {
         email,
         phone,
         referral,
-        role:"user"
+        role: "user",
       });
 
       // Redirect or perform other actions after successful registration
       props.history.push("/app");
     } catch (error) {
-      // Handle registration errors
-      setState({ ...state, error: error.message });
+      // Handle Firebase registration errors with meaningful messages
+      let errorMessage = "An error occurred during registration.";
+      switch (error.code) {
+        case "auth/email-already-in-use":
+          errorMessage =
+            "The email address is already in use by another account.";
+          break;
+        case "auth/invalid-email":
+          errorMessage = "The email address is invalid.";
+          break;
+        case "auth/weak-password":
+          errorMessage =
+            "The password is too weak. Please use a stronger password.";
+          break;
+        case "auth/network-request-failed":
+          errorMessage =
+            "Network error. Please check your internet connection and try again.";
+          break;
+        default:
+          errorMessage = error.message; // Use default Firebase error message for unexpected errors
+      }
+      setState({ ...state, error: errorMessage });
     }
   };
 
@@ -140,7 +198,11 @@ const Register = (props) => {
                   />
                 </FormGroup>
                 <div className="bg-widget d-flex justify-content-center">
-                  <Button className="rounded-pill my-3" type="submit" color="secondary-red">
+                  <Button
+                    className="rounded-pill my-3"
+                    type="submit"
+                    color="secondary-red"
+                  >
                     Sign Up
                   </Button>
                 </div>
