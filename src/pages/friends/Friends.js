@@ -32,12 +32,25 @@ const Friends = () => {
   const [sortOrder, setSortOrder] = useState("asc");
   const [currentPage, setCurrentPage] = useState(1);
   const friendsPerPage = 6;
+  const [userData, setUserData] = useState(null);
 
   useEffect(() => {
     // Fetch friends data from Firestore
+    const userid = JSON.parse(localStorage.getItem("user"));
     const fetchFriends = async () => {
       const querySnapshot = await getDocs(collection(firestore, "users"));
-      const friends = querySnapshot.docs.map((doc) => doc.data());
+      const friends = [];
+      const allUsers = querySnapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      allUsers.forEach((user) => {
+        if (user.id !== userid) {
+          friends.push(user);
+        } else {
+          setUserData(user);
+        }
+      });
       setFriendsData(friends);
       setFilteredFriends(friends);
     };
@@ -91,7 +104,7 @@ const Friends = () => {
   };
 
   const copyToClipboard = () => {
-    const referralLink = "https://yourapp.com/referral"; // Adjust this to your actual referral link
+    const referralLink = "http://extend-five.vercel.app/register?referral="+userData?.id; // Adjust this to your actual referral link
     navigator.clipboard.writeText(referralLink);
     setIsCopied(true);
     setTimeout(() => setIsCopied(false), 2000);
@@ -216,7 +229,10 @@ const Friends = () => {
                       >
                         <Button
                           onClick={() => handleTabClick("ShareInvite")}
-                          style={{backgroundColor:"white",borderColor:"white"}}
+                          style={{
+                            backgroundColor: "white",
+                            borderColor: "white",
+                          }}
                         >
                           <Icons.AddBoxOutlined
                             style={{

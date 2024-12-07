@@ -55,7 +55,7 @@ const Register = (props) => {
     const nameRegex = /^[a-zA-Z\s]+$/; // Only letters and spaces
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Basic email format
     const strongPasswordRegex =
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/; // Strong password
+      /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]{8,}$/;
     const phoneRegex = /^\d+$/; // Only digits
 
     // Input validation
@@ -103,10 +103,8 @@ const Register = (props) => {
         referral,
         role: "user",
       });
-      
-      toast.success(
-        "Your account has been successfully registered.."
-      );
+
+      toast.success("Your account has been successfully registered.");
       // Redirect or perform other actions after successful registration
       props.history.push("/app");
     } catch (error) {

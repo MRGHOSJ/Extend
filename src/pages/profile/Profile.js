@@ -33,16 +33,16 @@ const Profile = () => {
     age: 28,
     invitedBy: "John Doe", // Person who invited you
     referralLink:
-      "http://localhost:3000/register?referral=GbElSj7q99hSzPnMkLWojm35n4w1", // Referral link
+      "http://extend-five.vercel.app/register?referral=GbElSj7q99hSzPnMkLWojm35n4w1", // Referral link
     coursesAttended: 5, // Number of courses attended
     totalCourses: 20,
   });
   const [activeTab, setActiveTab] = useState("EditProfile");
   const [payment, setPayment] = useState([
     {
-      date: "2023-12-08",
-      price: 20,
-      product: "SDL Menu",
+      date: "2024-12-02",
+      price: 200,
+      product: "React Basics",
       image:
         "https://upload.wikimedia.org/wikipedia/commons/1/16/Simple_DirectMedia_Layer%2C_Logo.svg",
     },
@@ -62,7 +62,9 @@ const Profile = () => {
 
   const copyToClipboard = () => {
     navigator.clipboard
-      .writeText(content.referralLink)
+      .writeText(
+        "http://extend-five.vercel.app/register?referral=" + userData.id
+      )
       .then(() => {
         setIsCopied(true);
         setTimeout(() => setIsCopied(false), 2000); // Reset the copied state after 2 seconds
@@ -160,7 +162,6 @@ const Profile = () => {
         }));
         setUsers(usersDataBase);
 
-        console.log(usersDataBase);
         usersDataBase?.forEach((user) => {
           if (user.id === userid) {
             setUserData(user);
@@ -260,32 +261,34 @@ const Profile = () => {
           {/* User Parameters */}
           <div className="userParams">
             {/* Personal Info Section */}
-            <div className="info-section mb-4 d-flex align-items-center">
-              <Icons.Cake className="info-icon" />
+            <Row>
+            <Col className="info-section mb-4 d-flex align-items-center">
+              <Icons.Cake className="info-icon mr-2" />
               <div style={{ paddingTop: "30px" }}>
                 <p className="headline-3">{content.age} y.</p>
                 <p className="body-3 muted">Age</p>
               </div>
-            </div>
+            </Col>
 
             {/* Invitation Info Section */}
-            <div className="info-section mb-4 d-flex align-items-center">
-              <Icons.People className="info-icon" />
+            <Col className="info-section mb-4 d-flex align-items-center">
+              <Icons.People className="info-icon mr-2" />
               <div style={{ paddingTop: "30px" }}>
                 <p className="headline-3">
                   {userData?.referral
                     ? users?.map((user) => {
                         if (user.id == userData.referral) return user.name;
                       })
-                    : "N/A"}
+                    : "None"}
                 </p>
                 <p className="body-3 muted">Invited By</p>
               </div>
-            </div>
+            </Col>
+            </Row>
 
             {/* Courses Attended Section */}
             <div className="info-section mb-4 d-flex align-items-center">
-              <Icons.Layers className="info-icon" />
+              <Icons.Layers className="info-icon  mr-2" />
               <div style={{ paddingTop: "20px" }}>
                 <p className="headline-3">{content.coursesAttended} Courses </p>
                 <p className="body-3 muted"> Attended</p>
